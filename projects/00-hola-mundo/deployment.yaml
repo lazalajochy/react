@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment  # The kind of object we want to create
+metadata:  # Data that helps uniquely identify the object
+  name: my-react-app-deployment
+spec:
+  replicas: 1  # Number of pods
+  selector:
+    matchLabels:  
+      app: my-react-app-label  # Needs to match template labels
+  template:
+    metadata:
+      labels:
+        app: my-react-app-label  # Needs to match selector labels
+    spec:
+      containers:
+        - name: my-react-app-container
+          image: localhost:5173/my-react-app-image  # Where to get the image
+          ports:
+            - containerPort: 80
+
+
+# https://www.youtube.com/watch?v=gFI8PI-gMqQ
+# https://www.youtube.com/watch?v=ex9EPXRL7HQ
