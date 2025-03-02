@@ -1,21 +1,9 @@
 import { useState } from 'react'
+import { Square } from './component/Square';
 
 const TURNS = {
   x: "X",
   o: "O"
-}
-
-const Square = ({ children, isSelected, updateBoard, index }) => {
-  const className = `square ${isSelected ? 'is-selected' : ''}`
-  const handleClick = () => {
-    updateBoard(index)
-  }
-
-  return (
-    <div onClick={handleClick} className={className}>
-      {children}
-    </div>
-  )
 }
 
 const winnerCombination = [
@@ -23,7 +11,6 @@ const winnerCombination = [
   [0, 3, 6], [1, 4, 7], [2, 5, 8], // columns
   [0, 4, 8], [2, 4, 6] // diagonals
 ]
-
 
 function App() {
   const [board, setBaord] = useState(Array(9).fill(null));
