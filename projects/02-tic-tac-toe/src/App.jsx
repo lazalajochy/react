@@ -1,8 +1,7 @@
 import { useState } from 'react'
 import { Square } from './component/Square';
 import confetti from 'canvas-confetti';
-import { TURNS } from './constants';
-import { winnerCombination } from './constants';
+import { TURNS, winnerCombination } from './constants';
 
 function App() {
   const [board, setBaord] = useState(Array(9).fill(null));
