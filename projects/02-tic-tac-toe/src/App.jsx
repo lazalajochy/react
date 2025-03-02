@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Square } from './component/Square';
+import confetti from 'canvas-confetti';
 
 const TURNS = {
   x: "X",
@@ -37,6 +38,11 @@ function App() {
     const newWinner = checkWinner(newBoard)
     if (newWinner) {
       setWinner(newWinner)
+      confetti({
+        particleCount: 100,
+        spread: 70,
+        origin: { y: 0.6 }
+      });
     }else if (newBoard.every(square => square !== null)) {
       setWinner(false)
     }
