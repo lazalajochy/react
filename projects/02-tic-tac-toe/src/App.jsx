@@ -4,8 +4,14 @@ import confetti from 'canvas-confetti';
 import { TURNS, winnerCombination } from './constants';
 
 function App() {
-  const [board, setBaord] = useState(Array(9).fill(null));
-  const [turn, setTurn] = useState(TURNS.x);
+  const [board, setBaord] = useState(() => {
+    const localBoard = window.localStorage.getItem('board');
+    return localBoard ? JSON.parse(localBoard) : Array(9).fill(null)
+  })
+  const [turn, setTurn] =  useState(() => {
+    const turnFromstorage = window.localStorage.getItem("turn");
+    return turnFromstorage ?? TURNS.x
+  })  //useState(TURNS.x);
   const [winner, setWinner] = useState(null);
 
   const checkWinner = (boardToCheck) => {
@@ -18,6 +24,11 @@ function App() {
     return null
   }
 
+  const cleanBoard = () => {
+    window.localStorage.removeItem('board');
+    window.localStorage.removeItem('turn');
+  }
+
   const updateBoard = (index) => {
     if (board[index] || winner) return
     const newBoard = [...board]
@@ -25,6 +36,10 @@ function App() {
     setBaord(newBoard)
     const newturn = turn === TURNS.x ? TURNS.o : TURNS.x
     setTurn(newturn)
+
+    window.localStorage.setItem('board', JSON.stringify(newBoard));
+    window.localStorage.setItem('turn', newturn);
+
     const newWinner = checkWinner(newBoard)
     if (newWinner) {
       setWinner(newWinner)
@@ -33,8 +48,10 @@ function App() {
         spread: 70,
         origin: { y: 0.6 }
       });
-    }else if (newBoard.every(square => square !== null)) {
+      cleanBoard()
+    } else if (newBoard.every(square => square !== null)) {
       setWinner(false)
+      cleanBoard()
     }
   }
   return (
